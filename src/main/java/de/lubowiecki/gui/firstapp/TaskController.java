@@ -8,11 +8,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+// Initializable ist ein Interface, dass garantiert, dass die initialize
+// automatisch ausgeführt wird
 public class TaskController implements Initializable {
+
+    // Alle Elemente (Eigenschaften und Methoden) mit der Annotation @FXML interagieren mit der Oberfläche
 
     @FXML // Annotation: Verbindet ein Element in der Oberfläche mit Java
     private ListView<Task> ausgabe;
@@ -20,6 +23,9 @@ public class TaskController implements Initializable {
     @FXML
     private TextField eingabe;
 
+    // TaskService enthält die Verwaltung der Daten
+    // Hier ist hinterlegt, wo und wie die Daten gespeichert werden
+    // und wie diese beim Start der Anwendung eingelesen werden
     private TaskService service;
 
     // Methode soll auf das Betätigen der Enter-Taste reagieren
@@ -55,7 +61,7 @@ public class TaskController implements Initializable {
                 ausgewaehlt.toggleDone(); // Zustand des Tasks ändern
                 ausgabe.refresh(); // ListView: Anzeige aktuallisieren
                 try {
-                    service.save();
+                    service.save(); // Im Service muss die Änderung gespeichert werden
                 }
                 catch (Exception e) {
                     // TODO: Ausgabe der Meldung in der GUI
@@ -64,14 +70,13 @@ public class TaskController implements Initializable {
         }
     }
 
+    // Aktuallisierung der Anzeige der Task-Liste
     private void showTask() {
-        /*
-        StringBuilder sb = new StringBuilder();
-        for(Task t : tasks) {
-            sb.append(t.getTitle()).append("\n");
-        }
-        ausgabe.setText(sb.toString());
-        */
+        // (Alt)daten werden vom Service abgefragt und in der ListView angezeigt
+
+        // FXCollections ist eine Utility-Klasse mit Werkzeugen für GUI-Datenstrukturen
+        // .observableList(...) wandelt eine normale Liste ist eine Liste mit Auswahlmöglichkeit
+        // so dass mit einem Click etwas in der ListView ausgewählt werden kann
         ausgabe.setItems(FXCollections.observableList(service.getAll()));
     }
 
