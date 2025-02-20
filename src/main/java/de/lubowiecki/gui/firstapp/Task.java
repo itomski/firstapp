@@ -57,4 +57,9 @@ public class Task {
     public void setDoneAt(LocalDateTime doneAt) {
         this.doneAt = doneAt;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s)", title, (done ? "erledigt" : "offen"));
+    }
 }
