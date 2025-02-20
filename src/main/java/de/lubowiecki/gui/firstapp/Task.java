@@ -1,8 +1,9 @@
 package de.lubowiecki.gui.firstapp;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Task {
+public class Task implements Serializable {
 
     private String title;
 
@@ -48,6 +49,10 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public void toggleDone() {
+        this.done = !done;
     }
 
     public LocalDateTime getDoneAt() {

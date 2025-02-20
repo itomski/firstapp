@@ -1,19 +1,18 @@
 package de.lubowiecki.gui.firstapp;
 
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class TaskController {
+public class TaskController implements Initializable {
 
     @FXML // Annotation: Verbindet ein Element in der Oberfläche mit Java
     private ListView<Task> ausgabe;
@@ -21,7 +20,7 @@ public class TaskController {
     @FXML
     private TextField eingabe;
 
-    private List<Task> tasks = new ArrayList<>();
+    private TaskService service;
 
     // Methode soll auf das Betätigen der Enter-Taste reagieren
     // Wird durch eine Taste ausgelöst
@@ -39,8 +38,30 @@ public class TaskController {
 
         eingabe.clear(); // Textfeld wird geleert
         Task task = new Task(input);
-        tasks.add(task); // Der Task wird zu der Liste hinzugefügt
-        showTask(); // Ausgabe wird aktuallisiert
+        try {
+            service.add(task); // Der Task wird zu der Liste hinzugefügt
+            showTask(); // Ausgabe wird aktuallisiert
+        }
+        catch(Exception e) {
+            // TODO: Ausgabe der Meldung in der GUI
+        }
+    }
+
+    @FXML
+    protected void toggleDone(KeyEvent event) { // KeyEvent steht für das Betätigen irgendeiner Taste
+        if(event.getCode() == KeyCode.SPACE) { // Prüft, ob die Leertaste betätigt wurde
+            Task ausgewaehlt = ausgabe.getSelectionModel().getSelectedItem(); // Ausgewähltes Element liefern
+            if(ausgewaehlt != null) {
+                ausgewaehlt.toggleDone(); // Zustand des Tasks ändern
+                ausgabe.refresh(); // ListView: Anzeige aktuallisieren
+                try {
+                    service.save();
+                }
+                catch (Exception e) {
+                    // TODO: Ausgabe der Meldung in der GUI
+                }
+            }
+        }
     }
 
     private void showTask() {
@@ -51,7 +72,13 @@ public class TaskController {
         }
         ausgabe.setText(sb.toString());
         */
+        ausgabe.setItems(FXCollections.observableList(service.getAll()));
+    }
 
-        ausgabe.setItems(FXCollections.observableList(tasks));
+    // Wird automatisch ausgeführt, wenn die Oberfläche bereitgestellt wird
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        service = new TaskService();
+        showTask(); // Altdaten anzeigen
     }
 }
