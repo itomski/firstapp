@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +28,13 @@ public class TaskController implements Initializable {
     // Hier ist hinterlegt, wo und wie die Daten gespeichert werden
     // und wie diese beim Start der Anwendung eingelesen werden
     private TaskService service;
+
+
+    // In eine andere View wechseln
+    @FXML
+    protected void changeView() throws IOException {
+        App.setRoot("next-view"); // Wechsel der View
+    }
 
     // Methode soll auf das Betätigen der Enter-Taste reagieren
     // Wird durch eine Taste ausgelöst

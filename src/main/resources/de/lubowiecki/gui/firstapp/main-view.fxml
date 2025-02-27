@@ -20,5 +20,6 @@
       <Separator layoutX="20.0" layoutY="131.0" prefHeight="3.0" prefWidth="235.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
       <ListView fx:id="ausgabe" layoutX="20.0" layoutY="148.0" onKeyReleased="#toggleDone" prefHeight="369.0" prefWidth="235.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
       <Button layoutX="209.0" layoutY="85.0" mnemonicParsing="false" onAction="#savePlain" text="Save" />
+      <Button layoutX="205.0" layoutY="14.0" mnemonicParsing="false" onAction="#changeView" text="Next" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
    </children>
 </AnchorPane>
